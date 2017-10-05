@@ -1,0 +1,245 @@
+{
+    "source": 2,
+    "id": 6,
+    "revision": 2,
+    "name": "DotNetAppSqlDb_Template - CD",
+    "description": null,
+    "createdBy": {
+        "id": "db7bca12-0d60-625d-82ac-027442a1f8f1",
+        "displayName": "Andreas Sobczyk",
+        "uniqueName": "aso@coretech.dk"
+    },
+    "createdOn": "2017-10-04T19:07:54.103Z",
+    "modifiedBy": {
+        "id": "db7bca12-0d60-625d-82ac-027442a1f8f1",
+        "displayName": "Andreas Sobczyk",
+        "uniqueName": "aso@coretech.dk"
+    },
+    "modifiedOn": "2017-10-04T19:09:42.330Z",
+    "path": "\\",
+    "variables": {},
+    "variableGroups": [],
+    "environments": [
+        {
+            "id": 13,
+            "name": "Dev",
+            "rank": 1,
+            "variables": {},
+            "preDeployApprovals": {
+                "approvals": [
+                    {
+                        "rank": 1,
+                        "isAutomated": true,
+                        "isNotificationOn": false,
+                        "id": 38
+                    }
+                ]
+            },
+            "deployStep": {
+                "tasks": [],
+                "id": 41
+            },
+            "postDeployApprovals": {
+                "approvals": [
+                    {
+                        "rank": 1,
+                        "isAutomated": true,
+                        "isNotificationOn": false,
+                        "id": 42
+                    }
+                ]
+            },
+            "deployPhases": [
+                {
+                    "deploymentInput": {
+                        "parallelExecution": {
+                            "parallelExecutionType": "none"
+                        },
+                        "skipArtifactsDownload": false,
+                        "queueId": 12,
+                        "demands": [],
+                        "enableAccessToken": false,
+                        "timeoutInMinutes": 0,
+                        "jobCancelTimeoutInMinutes": 1,
+                        "condition": "succeeded()",
+                        "overrideInputs": {}
+                    },
+                    "rank": 1,
+                    "phaseType": 1,
+                    "name": "Agent phase",
+                    "workflowTasks": [
+                        {
+                            "taskId": "94a74903-f93f-4075-884f-dc11f34058b4",
+                            "version": "2.*",
+                            "name": "Azure Deployment: DotNetAppSqlDb-tst",
+                            "refName": "AzureResourceGroupDeployment1",
+                            "enabled": true,
+                            "alwaysRun": false,
+                            "continueOnError": false,
+                            "timeoutInMinutes": 0,
+                            "definitionType": "task",
+                            "overrideInputs": {},
+                            "condition": "succeeded()",
+                            "inputs": {
+                                "action": "Create Or Update Resource Group",
+                                "resourceGroupName": "DotNetAppSqlDb-dev",
+                                "location": "West Europe",
+                                "templateLocation": "Linked artifact",
+                                "csmFileLink": "",
+                                "csmParametersFileLink": "",
+                                "csmFile": "$(System.DefaultWorkingDirectory)/DotNetAppSqlDb_Template - CI/drop/DotNetAppSqlDb.json",
+                                "csmParametersFile": "$(System.DefaultWorkingDirectory)/DotNetAppSqlDb_Template - CI/drop/DotNetAppSqlDb.dev.parameters.json",
+                                "overrideParameters": "",
+                                "deploymentMode": "Incremental",
+                                "enableDeploymentPrerequisites": "None",
+                                "deploymentGroupEndpoint": "",
+                                "project": "",
+                                "deploymentGroupName": "",
+                                "copyAzureVMTags": "true",
+                                "outputVariable": ""
+                            }
+                        }
+                    ]
+                }
+            ],
+            "environmentOptions": {
+                "emailNotificationType": "OnlyOnFailure",
+                "emailRecipients": "release.environment.owner;release.creator",
+                "skipArtifactsDownload": false,
+                "timeoutInMinutes": 0,
+                "enableAccessToken": false,
+                "publishDeploymentStatus": true
+            },
+            "demands": [],
+            "conditions": [],
+            "executionPolicy": {
+                "concurrencyCount": 0,
+                "queueDepthCount": 0
+            },
+            "schedules": [],
+            "retentionPolicy": {
+                "daysToKeep": 30,
+                "releasesToKeep": 3,
+                "retainBuild": true
+            },
+            "processParameters": {},
+            "properties": {}
+        },
+        {
+            "id": 14,
+            "name": "Production",
+            "rank": 2,
+            "variables": {},
+            "preDeployApprovals": {
+                "approvals": [
+                    {
+                        "rank": 1,
+                        "isAutomated": true,
+                        "isNotificationOn": false,
+                        "id": 44
+                    }
+                ]
+            },
+            "deployStep": {
+                "tasks": [],
+                "id": 40
+            },
+            "postDeployApprovals": {
+                "approvals": [
+                    {
+                        "rank": 1,
+                        "isAutomated": true,
+                        "isNotificationOn": false,
+                        "id": 43
+                    }
+                ]
+            },
+            "deployPhases": [
+                {
+                    "deploymentInput": {
+                        "parallelExecution": {
+                            "parallelExecutionType": "none"
+                        },
+                        "skipArtifactsDownload": false,
+                        "queueId": 12,
+                        "demands": [],
+                        "enableAccessToken": false,
+                        "timeoutInMinutes": 0,
+                        "jobCancelTimeoutInMinutes": 1,
+                        "condition": "succeeded()",
+                        "overrideInputs": {}
+                    },
+                    "rank": 1,
+                    "phaseType": 1,
+                    "name": "Agent phase",
+                    "workflowTasks": [
+                        {
+                            "taskId": "94a74903-f93f-4075-884f-dc11f34058b4",
+                            "version": "2.*",
+                            "name": "Azure Deployment: DotNetAppSqlDb-prd",
+                            "refName": "AzureResourceGroupDeployment1",
+                            "enabled": true,
+                            "alwaysRun": false,
+                            "continueOnError": false,
+                            "timeoutInMinutes": 0,
+                            "definitionType": "task",
+                            "overrideInputs": {},
+                            "condition": "succeeded()",
+                            "inputs": {
+                                "action": "Create Or Update Resource Group",
+                                "resourceGroupName": "DotNetAppSqlDb-prd",
+                                "location": "West Europe",
+                                "templateLocation": "Linked artifact",
+                                "csmFileLink": "",
+                                "csmParametersFileLink": "",
+                                "csmFile": "$(System.DefaultWorkingDirectory)/DotNetAppSqlDb_Template - CI/drop/DotNetAppSqlDb.json",
+                                "csmParametersFile": "$(System.DefaultWorkingDirectory)/DotNetAppSqlDb_Template - CI/drop/DotNetAppSqlDb.prd.parameters.json",
+                                "overrideParameters": "",
+                                "deploymentMode": "Incremental",
+                                "enableDeploymentPrerequisites": "None",
+                                "deploymentGroupEndpoint": "",
+                                "project": "",
+                                "deploymentGroupName": "",
+                                "copyAzureVMTags": "true",
+                                "outputVariable": ""
+                            }
+                        }
+                    ]
+                }
+            ],
+            "environmentOptions": {
+                "emailNotificationType": "OnlyOnFailure",
+                "emailRecipients": "release.environment.owner;release.creator",
+                "skipArtifactsDownload": false,
+                "timeoutInMinutes": 0,
+                "enableAccessToken": false,
+                "publishDeploymentStatus": true
+            },
+            "demands": [],
+            "conditions": [
+                {
+                    "name": "Dev",
+                    "conditionType": 2,
+                    "value": "4"
+                }
+            ],
+            "executionPolicy": {
+                "concurrencyCount": 0,
+                "queueDepthCount": 0
+            },
+            "schedules": [],
+            "retentionPolicy": {
+                "daysToKeep": 30,
+                "releasesToKeep": 3,
+                "retainBuild": true
+            },
+            "processParameters": {},
+            "properties": {}
+        }
+    ],
+    "artifacts": [],
+    "triggers": [],
+    "releaseNameFormat": "Release-$(rev:r)",
+    "tags": [],
+    "properties": {}
+}

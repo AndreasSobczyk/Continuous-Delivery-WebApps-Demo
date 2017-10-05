@@ -1,0 +1,178 @@
+{
+    "options": [
+        {
+            "enabled": false,
+            "definition": {
+                "id": "5d58cc01-7c75-450c-be18-a388ddb129ec"
+            },
+            "inputs": {
+                "branchFilters": "[\"+refs/heads/*\"]",
+                "additionalFields": "{}"
+            }
+        },
+        {
+            "enabled": false,
+            "definition": {
+                "id": "a9db38f9-9fdc-478c-b0f9-464221e58316"
+            },
+            "inputs": {
+                "workItemType": "634616",
+                "assignToRequestor": "true",
+                "additionalFields": "{}"
+            }
+        },
+        {
+            "enabled": false,
+            "definition": {
+                "id": "57578776-4c22-4526-aeb0-86b6da17ee9c"
+            },
+            "inputs": {}
+        }
+    ],
+    "variables": {
+        "system.debug": {
+            "value": "false",
+            "allowOverride": true
+        }
+    },
+    "retentionRules": [
+        {
+            "branches": [
+                "+refs/heads/*"
+            ],
+            "artifacts": [],
+            "artifactTypesToDelete": [
+                "FilePath",
+                "SymbolStore"
+            ],
+            "daysToKeep": 10,
+            "minimumToKeep": 1,
+            "deleteBuildRecord": true,
+            "deleteTestResults": true
+        }
+    ],
+    "metrics": [
+        {
+            "name": "CurrentBuildsInQueue",
+            "scope": "refs/heads/master",
+            "intValue": 0
+        },
+        {
+            "name": "CurrentBuildsInProgress",
+            "scope": "refs/heads/master",
+            "intValue": 0
+        }
+    ],
+    "buildNumberFormat": "$(date:yyyyMMdd)$(rev:.r)",
+    "jobAuthorizationScope": 1,
+    "jobTimeoutInMinutes": 60,
+    "jobCancelTimeoutInMinutes": 5,
+    "process": {
+        "phases": [
+            {
+                "steps": [
+                    {
+                        "environment": {},
+                        "enabled": true,
+                        "continueOnError": false,
+                        "alwaysRun": false,
+                        "displayName": "Validate Template",
+                        "timeoutInMinutes": 0,
+                        "condition": "succeeded()",
+                        "refName": "AzureResourceGroupDeployment1",
+                        "task": {
+                            "id": "94a74903-f93f-4075-884f-dc11f34058b4",
+                            "versionSpec": "2.*",
+                            "definitionType": "task"
+                        },
+                        "inputs": {
+                            "ConnectedServiceName": "",
+                            "action": "Create Or Update Resource Group",
+                            "resourceGroupName": "DotNetAppSqlDb-dev",
+                            "location": "West Europe",
+                            "templateLocation": "Linked artifact",
+                            "csmFileLink": "",
+                            "csmParametersFileLink": "",
+                            "csmFile": "webapp-sqldatabase-Scaling/DotNetAppSqlDb.json",
+                            "csmParametersFile": "webapp-sqldatabase-Scaling/DotNetAppSqlDb.dev.parameters.json",
+                            "overrideParameters": "",
+                            "deploymentMode": "Validation",
+                            "enableDeploymentPrerequisites": "None",
+                            "deploymentGroupEndpoint": "",
+                            "project": "",
+                            "deploymentGroupName": "",
+                            "copyAzureVMTags": "true",
+                            "outputVariable": ""
+                        }
+                    },
+                    {
+                        "environment": {},
+                        "enabled": true,
+                        "continueOnError": false,
+                        "alwaysRun": false,
+                        "displayName": "Publish Artifact: drop",
+                        "timeoutInMinutes": 0,
+                        "condition": "succeeded()",
+                        "refName": "PublishBuildArtifacts2",
+                        "task": {
+                            "id": "2ff763a7-ce83-4e1f-bc89-0ae63477cebe",
+                            "versionSpec": "1.*",
+                            "definitionType": "task"
+                        },
+                        "inputs": {
+                            "PathtoPublish": "webapp-sqldatabase-Scaling",
+                            "ArtifactName": "drop",
+                            "ArtifactType": "Container",
+                            "TargetPath": "\\\\my\\share\\$(Build.DefinitionName)\\$(Build.BuildNumber)",
+                            "Parallel": "false",
+                            "ParallelCount": "8"
+                        }
+                    }
+                ],
+                "name": null,
+                "jobAuthorizationScope": 0
+            }
+        ],
+        "type": 1
+    },
+    "repository": {
+        "properties": {
+            "cleanOptions": "0",
+            "labelSources": "0",
+            "labelSourcesFormat": "$(build.buildNumber)",
+            "reportBuildStatus": "true",
+            "gitLfsSupport": "false",
+            "skipSyncSource": "false",
+            "checkoutNestedSubmodules": "false",
+            "fetchDepth": "0"
+        },
+        "id": "b0b6f4c1-6f70-4738-a8dc-b3e68e797339",
+        "type": "TfsGit",
+        "name": "DotNetAppSqlDb_ARMTemplate",
+        "defaultBranch": "refs/heads/master",
+        "clean": "false",
+        "checkoutSubmodules": false
+    },
+    "processParameters": {},
+    "quality": 1,
+    "authoredBy": {
+        "id": "db7bca12-0d60-625d-82ac-027442a1f8f1",
+        "displayName": "Andreas Sobczyk",
+        "uniqueName": "aso@coretech.dk"
+    },
+    "id": 4,
+    "name": "DotNetAppSqlDb_Template - CI",
+    "uri": "vstfs:///Build/Definition/4",
+    "path": "\\",
+    "type": 2,
+    "queueStatus": 0,
+    "revision": 7,
+    "createdDate": "2017-08-21T19:36:08.930Z",
+    "project": {
+        "id": "aed0a371-7b34-4361-b6fd-02501f71a4b8",
+        "name": "DevOps_Demo",
+        "state": "wellFormed",
+        "revision": 26,
+        "visibility": 0
+    }
+}

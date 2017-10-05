@@ -1,0 +1,32 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "sqlAdministratorLogin": {
+      "value": "sqlAdmin"
+    },
+    "sqlAdministratorLoginPassword": {
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/bbdf0ba3-1994-4165-a89f-0c8b0306b4e3/resourceGroups/keyVault-tst/providers/Microsoft.KeyVault/vaults/asoKeyVault-tst"
+        },
+        "secretName": "DotNetAppSqlAdmin"
+      }
+    },
+    "appName": {
+      "value": "DotNetAppSqlDb"
+    },
+    "appServiceSKU": {
+      "value": "S1"
+    },
+    "environment": {
+      "value": "prd"
+    },
+    "sqlSku": {
+      "value": "Basic"
+    },
+    "deploymentSlotName": {
+      "value": "UAT"
+    }
+  }
+}
