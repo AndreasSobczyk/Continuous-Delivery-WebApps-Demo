@@ -20,7 +20,7 @@
       "value": "S1"
     },
     "environment": {
-      "value": "tst"
+      "value": "dev"
     },
     "sqlSku": {
       "value": "Basic"
