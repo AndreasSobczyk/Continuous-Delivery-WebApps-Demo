@@ -6,12 +6,7 @@
       "value": "sqlAdmin"
     },
     "sqlAdministratorLoginPassword": {
-      "reference": {
-        "keyVault": {
-          "id": "/subscriptions/bbdf0ba3-1994-4165-a89f-0c8b0306b4e3/resourceGroups/keyVault-tst/providers/Microsoft.KeyVault/vaults/asoKeyVault-tst"
-        },
-        "secretName": "DotNetAppSqlAdmin"
-      }
+      "value": "Passw0rd!"
     },
     "appName": {
       "value": "DotNetAppSqlDb"
