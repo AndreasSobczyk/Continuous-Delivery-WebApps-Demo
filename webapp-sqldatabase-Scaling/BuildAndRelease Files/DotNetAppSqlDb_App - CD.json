@@ -1,0 +1,460 @@
+{
+    "source": 2,
+    "id": 3,
+    "revision": 17,
+    "name": "DotNetAppSqlDb_App - CD",
+    "description": null,
+    "createdOn": "2017-08-21T19:40:58.750Z",
+    "modifiedOn": "2017-10-13T07:42:08.787Z",
+    "isDeleted": false,
+    "path": "\\",
+    "variables": {},
+    "variableGroups": [],
+    "environments": [
+        {
+            "id": 5,
+            "name": "Dev",
+            "rank": 1,
+            "variables": {},
+            "preDeployApprovals": {
+                "approvals": [
+                    {
+                        "rank": 1,
+                        "isAutomated": true,
+                        "isNotificationOn": false,
+                        "id": 13
+                    }
+                ]
+            },
+            "deployStep": {
+                "tasks": [],
+                "id": 14
+            },
+            "postDeployApprovals": {
+                "approvals": [
+                    {
+                        "rank": 1,
+                        "isAutomated": true,
+                        "isNotificationOn": false,
+                        "id": 15
+                    }
+                ]
+            },
+            "deployPhases": [
+                {
+                    "deploymentInput": {
+                        "parallelExecution": {
+                            "parallelExecutionType": "none"
+                        },
+                        "skipArtifactsDownload": false,
+                        "artifactsDownloadInput": {},
+                        "queueId": 12,
+                        "demands": [],
+                        "enableAccessToken": false,
+                        "timeoutInMinutes": 0,
+                        "jobCancelTimeoutInMinutes": 1,
+                        "condition": "succeeded()",
+                        "overrideInputs": {}
+                    },
+                    "rank": 1,
+                    "phaseType": 1,
+                    "name": "Run on agent",
+                    "workflowTasks": [
+                        {
+                            "taskId": "497d490f-eea7-4f2b-ab94-48d9c1acdcb1",
+                            "version": "3.*",
+                            "name": "Deploy Azure App Servicee",
+                            "refName": "AzureRmWebAppDeployment1",
+                            "enabled": true,
+                            "alwaysRun": false,
+                            "continueOnError": false,
+                            "timeoutInMinutes": 0,
+                            "definitionType": null,
+                            "overrideInputs": {},
+                            "condition": "succeeded()",
+                            "inputs": {
+                                "WebAppName": "DotNetAppSqlDb-dev",
+                                "WebAppKind": "app",
+                                "DeployToSlotFlag": "true",
+                                "ResourceGroupName": "DotNetAppSqlDb-dev",
+                                "SlotName": "staging",
+                                "ImageSource": "Registry",
+                                "DockerNamespace": "",
+                                "DockerRepository": "",
+                                "DockerImageTag": "$(Build.BuildId)",
+                                "VirtualApplication": "",
+                                "Package": "$(System.DefaultWorkingDirectory)\\**\\*.zip",
+                                "BuiltinLinuxPackage": "$(System.DefaultWorkingDirectory)/**/*.zip",
+                                "RuntimeStack": "node|4.4",
+                                "StartupCommand": "",
+                                "WebAppUri": "DotNetAppSqlDbDEVurl",
+                                "ScriptType": "",
+                                "InlineScript": "",
+                                "ScriptPath": "",
+                                "GenerateWebConfig": "false",
+                                "WebConfigParameters": "",
+                                "AppSettings": "",
+                                "TakeAppOfflineFlag": "true",
+                                "UseWebDeploy": "false",
+                                "SetParametersFile": "",
+                                "RemoveAdditionalFilesFlag": "false",
+                                "ExcludeFilesFromAppDataFlag": "false",
+                                "AdditionalArguments": "",
+                                "RenameFilesFlag": "true",
+                                "XmlTransformation": "false",
+                                "XmlVariableSubstitution": "false",
+                                "JSONFiles": ""
+                            }
+                        },
+                        {
+                            "taskId": "e213ff0f-5d5c-4791-802d-52ea3e7be1f1",
+                            "version": "1.*",
+                            "name": "PowerShell: Test URL",
+                            "refName": "PowerShell1",
+                            "enabled": true,
+                            "alwaysRun": false,
+                            "continueOnError": false,
+                            "timeoutInMinutes": 0,
+                            "definitionType": "task",
+                            "overrideInputs": {},
+                            "condition": "succeeded()",
+                            "inputs": {
+                                "scriptType": "inlineScript",
+                                "scriptName": "",
+                                "arguments": "",
+                                "workingFolder": "",
+                                "inlineScript": "\n$url = \"$env:DotNetAppSqlDbDEVurl\"\n\n$response = Invoke-WebRequest -UseBasicParsing -Uri $url\nif($response.StatusCode -ne 200){\n    Write-Error \"$(\"Failed to load $url\") $($env:ErrorMessage)\"\n}",
+                                "failOnStandardError": "true"
+                            }
+                        },
+                        {
+                            "taskId": "f045e430-8704-11e6-968f-e717e6411619",
+                            "version": "0.*",
+                            "name": "Swap slot to Dev",
+                            "refName": "AzureAppServiceManage1",
+                            "enabled": true,
+                            "alwaysRun": false,
+                            "continueOnError": false,
+                            "timeoutInMinutes": 0,
+                            "definitionType": "task",
+                            "overrideInputs": {},
+                            "condition": "succeeded()",
+                            "inputs": {
+                                "Action": "Swap Slots",
+                                "WebAppName": "DotNetAppSqlDb-dev",
+                                "SpecifySlot": "false",
+                                "ResourceGroupName": "DotNetAppSqlDb-dev",
+                                "SourceSlot": "staging",
+                                "SwapWithProduction": "true",
+                                "TargetSlot": "",
+                                "PreserveVnet": "false",
+                                "Slot": "",
+                                "ExtensionsList": "",
+                                "OutputVariable": ""
+                            }
+                        }
+                    ]
+                }
+            ],
+            "environmentOptions": {
+                "emailNotificationType": "OnlyOnFailure",
+                "emailRecipients": "release.environment.owner;release.creator",
+                "skipArtifactsDownload": false,
+                "timeoutInMinutes": 0,
+                "enableAccessToken": false,
+                "publishDeploymentStatus": true
+            },
+            "demands": [],
+            "conditions": [
+                {
+                    "name": "ReleaseStarted",
+                    "conditionType": 1,
+                    "value": ""
+                }
+            ],
+            "executionPolicy": {
+                "concurrencyCount": 0,
+                "queueDepthCount": 0
+            },
+            "schedules": [],
+            "retentionPolicy": {
+                "daysToKeep": 30,
+                "releasesToKeep": 3,
+                "retainBuild": true
+            },
+            "processParameters": {},
+            "properties": {}
+        },
+        {
+            "id": 6,
+            "name": "UAT",
+            "rank": 2,
+            "variables": {},
+            "preDeployApprovals": {
+                "approvals": [
+                    {
+                        "rank": 1,
+                        "isAutomated": true,
+                        "isNotificationOn": false,
+                        "id": 16
+                    }
+                ]
+            },
+            "deployStep": {
+                "tasks": [],
+                "id": 17
+            },
+            "postDeployApprovals": {
+                "approvals": [
+                    {
+                        "rank": 1,
+                        "isAutomated": true,
+                        "isNotificationOn": false,
+                        "id": 18
+                    }
+                ]
+            },
+            "deployPhases": [
+                {
+                    "deploymentInput": {
+                        "parallelExecution": {
+                            "parallelExecutionType": "none"
+                        },
+                        "skipArtifactsDownload": false,
+                        "artifactsDownloadInput": {},
+                        "queueId": 12,
+                        "demands": [],
+                        "enableAccessToken": false,
+                        "timeoutInMinutes": 0,
+                        "jobCancelTimeoutInMinutes": 1,
+                        "condition": "succeeded()",
+                        "overrideInputs": {}
+                    },
+                    "rank": 1,
+                    "phaseType": 1,
+                    "name": "Run on agent",
+                    "workflowTasks": [
+                        {
+                            "taskId": "497d490f-eea7-4f2b-ab94-48d9c1acdcb1",
+                            "version": "3.*",
+                            "name": "Deploy Azure App Service",
+                            "refName": "AzureRmWebAppDeployment1",
+                            "enabled": true,
+                            "alwaysRun": false,
+                            "continueOnError": false,
+                            "timeoutInMinutes": 0,
+                            "definitionType": null,
+                            "overrideInputs": {},
+                            "condition": "succeeded()",
+                            "inputs": {
+                                "WebAppName": "DotNetAppSqlDb-prd",
+                                "WebAppKind": "app",
+                                "DeployToSlotFlag": "true",
+                                "ResourceGroupName": "DotNetAppSqlDb-prd",
+                                "SlotName": "UAT",
+                                "ImageSource": "Registry",
+                                "DockerNamespace": "",
+                                "DockerRepository": "",
+                                "DockerImageTag": "$(Build.BuildId)",
+                                "VirtualApplication": "",
+                                "Package": "$(System.DefaultWorkingDirectory)\\**\\*.zip",
+                                "BuiltinLinuxPackage": "$(System.DefaultWorkingDirectory)/**/*.zip",
+                                "RuntimeStack": "node|4.4",
+                                "StartupCommand": "",
+                                "WebAppUri": "DotNetAppSqlDbUATurl",
+                                "ScriptType": "",
+                                "InlineScript": "",
+                                "ScriptPath": "",
+                                "GenerateWebConfig": "false",
+                                "WebConfigParameters": "",
+                                "AppSettings": "",
+                                "TakeAppOfflineFlag": "true",
+                                "UseWebDeploy": "false",
+                                "SetParametersFile": "",
+                                "RemoveAdditionalFilesFlag": "false",
+                                "ExcludeFilesFromAppDataFlag": "false",
+                                "AdditionalArguments": "",
+                                "RenameFilesFlag": "true",
+                                "XmlTransformation": "false",
+                                "XmlVariableSubstitution": "false",
+                                "JSONFiles": ""
+                            }
+                        },
+                        {
+                            "taskId": "e213ff0f-5d5c-4791-802d-52ea3e7be1f1",
+                            "version": "1.*",
+                            "name": "PowerShell: Test URL",
+                            "refName": "PowerShell1",
+                            "enabled": true,
+                            "alwaysRun": false,
+                            "continueOnError": false,
+                            "timeoutInMinutes": 0,
+                            "definitionType": "task",
+                            "overrideInputs": {},
+                            "condition": "succeeded()",
+                            "inputs": {
+                                "scriptType": "inlineScript",
+                                "scriptName": "",
+                                "arguments": "",
+                                "workingFolder": "",
+                                "inlineScript": "\n$url = \"$env:DotNetAppSqlDbUATurl\"\n\n$response = Invoke-WebRequest -UseBasicParsing -Uri $url\nif($response.StatusCode -ne 200){\n    Write-Error \"$(\"Failed to load $url\") $($env:ErrorMessage)\"\n}",
+                                "failOnStandardError": "true"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "environmentOptions": {
+                "emailNotificationType": "OnlyOnFailure",
+                "emailRecipients": "release.environment.owner;release.creator",
+                "skipArtifactsDownload": false,
+                "timeoutInMinutes": 0,
+                "enableAccessToken": false,
+                "publishDeploymentStatus": true
+            },
+            "demands": [],
+            "conditions": [
+                {
+                    "name": "Dev",
+                    "conditionType": 2,
+                    "value": "4"
+                }
+            ],
+            "executionPolicy": {
+                "concurrencyCount": 0,
+                "queueDepthCount": 0
+            },
+            "schedules": [],
+            "retentionPolicy": {
+                "daysToKeep": 30,
+                "releasesToKeep": 3,
+                "retainBuild": true
+            },
+            "processParameters": {},
+            "properties": {}
+        },
+        {
+            "id": 7,
+            "name": "Production",
+            "rank": 3,
+            "variables": {},
+            "preDeployApprovals": {
+                "approvals": [
+                    {
+                        "rank": 1,
+                        "isAutomated": true,
+                        "isNotificationOn": false,
+                        "id": 19
+                    }
+                ]
+            },
+            "deployStep": {
+                "tasks": [],
+                "id": 20
+            },
+            "postDeployApprovals": {
+                "approvals": [
+                    {
+                        "rank": 1,
+                        "isAutomated": true,
+                        "isNotificationOn": false,
+                        "id": 21
+                    }
+                ]
+            },
+            "deployPhases": [
+                {
+                    "deploymentInput": {
+                        "parallelExecution": {
+                            "parallelExecutionType": "none"
+                        },
+                        "skipArtifactsDownload": false,
+                        "artifactsDownloadInput": {},
+                        "queueId": 12,
+                        "demands": [],
+                        "enableAccessToken": false,
+                        "timeoutInMinutes": 0,
+                        "jobCancelTimeoutInMinutes": 1,
+                        "condition": "succeeded()",
+                        "overrideInputs": {}
+                    },
+                    "rank": 1,
+                    "phaseType": 1,
+                    "name": "Run on agent",
+                    "workflowTasks": [
+                        {
+                            "taskId": "f045e430-8704-11e6-968f-e717e6411619",
+                            "version": "0.*",
+                            "name": "Swap slot to Prd",
+                            "refName": "AzureAppServiceManage1",
+                            "enabled": true,
+                            "alwaysRun": false,
+                            "continueOnError": false,
+                            "timeoutInMinutes": 0,
+                            "definitionType": "task",
+                            "overrideInputs": {},
+                            "condition": "succeeded()",
+                            "inputs": {
+                                "Action": "Swap Slots",
+                                "WebAppName": "DotNetAppSqlDb-prd",
+                                "SpecifySlot": "false",
+                                "ResourceGroupName": "DotNetAppSqlDb-prd",
+                                "SourceSlot": "UAT",
+                                "SwapWithProduction": "true",
+                                "TargetSlot": "",
+                                "PreserveVnet": "false",
+                                "Slot": "",
+                                "ExtensionsList": "",
+                                "OutputVariable": ""
+                            }
+                        }
+                    ]
+                }
+            ],
+            "environmentOptions": {
+                "emailNotificationType": "OnlyOnFailure",
+                "emailRecipients": "release.environment.owner;release.creator",
+                "skipArtifactsDownload": false,
+                "timeoutInMinutes": 0,
+                "enableAccessToken": false,
+                "publishDeploymentStatus": true
+            },
+            "demands": [],
+            "conditions": [
+                {
+                    "name": "UAT",
+                    "conditionType": 2,
+                    "value": "4"
+                }
+            ],
+            "executionPolicy": {
+                "concurrencyCount": 0,
+                "queueDepthCount": 0
+            },
+            "schedules": [],
+            "retentionPolicy": {
+                "daysToKeep": 30,
+                "releasesToKeep": 3,
+                "retainBuild": true
+            },
+            "processParameters": {},
+            "properties": {}
+        }
+    ],
+    "artifacts": [],
+    "triggers": [
+        {
+            "artifactAlias": "DotNetAppSqlDb_App - CI",
+            "triggerConditions": [
+                {
+                    "sourceBranch": "master",
+                    "tags": []
+                }
+            ],
+            "triggerType": 1
+        }
+    ],
+    "releaseNameFormat": "Release-$(rev:r)",
+    "tags": [],
+    "properties": {}
+}
