@@ -146,7 +146,8 @@
       "type": "Microsoft.Web/sites",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[variables('hostingPlanName')]"
+        "[variables('hostingPlanName')]",
+        "[variables('sqlserverName')]"
       ],
       "properties": {
         "name": "[variables('webSiteName')]",
@@ -159,7 +160,8 @@
           "type": "slots",
           "location": "[resourceGroup().location]",
           "dependsOn": [
-            "[resourceId('Microsoft.Web/Sites', variables('webSiteName'))]"
+            "[resourceId('Microsoft.Web/Sites', variables('webSiteName'))]",
+            "[resourceId('Microsoft.Web/sites/config', variables('webSiteName'), 'connectionstrings')]"
           ],
           "properties": {
             "connectionStringNames": [ "MyDbConnection" ]
